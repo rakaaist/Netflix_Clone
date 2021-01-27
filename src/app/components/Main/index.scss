@@ -1,0 +1,33 @@
+.hero {
+    background-image: url("../../../hero.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 490px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-title {
+    color: white;
+    font-weight: bold;
+    font-size: 35px;
+    margin-bottom: 50px;
+}
+
+.movies-container {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 50px;
+}
+
+.movies-list {
+    padding: 48px 155px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
