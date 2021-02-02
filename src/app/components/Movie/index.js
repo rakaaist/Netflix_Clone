@@ -1,7 +1,7 @@
 import "./index.scss";
-import Button from "../../Button";
+import Button from "../Button";
 
-function Movie({ title, description, image, id, toggleFavorites, favorites }) {
+function Movie({ title, description, image, id, toggleFavorite, favorites }) {
     return (
         <div className="movie-box">
             <img className="movie-image" src={image} alt={title} />
@@ -16,7 +16,7 @@ function Movie({ title, description, image, id, toggleFavorites, favorites }) {
                 </div>
                 <Button size="small"
                     onClick={() => {
-                        toggleFavorites(id);
+                        toggleFavorite(id);
                     }}
                     isTransparent={favorites.includes(id) ? true : false}
                 >

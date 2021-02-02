@@ -1,6 +1,8 @@
+@import "src/variables";
+
 .footer {
     height: 70px;
-    background-color: #222222;
+    background-color: $grey;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -8,5 +10,5 @@
 }
 
 .footer-text {
-    color: white;
+    color: $white;
 }
