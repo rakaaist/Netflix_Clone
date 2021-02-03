@@ -1,18 +1,15 @@
 import "./index.scss";
 import Button from "../Button";
+import { Link } from "react-router-dom";
 
 function Movie({ title, description, image, id, toggleFavorite, favorites }) {
     return (
         <div className="movie-box">
-            <img className="movie-image" src={image} alt={title} />
+            <Link to={`/movies/${id}`}><img className="movie-image" src={image} alt={title} /></Link>
             <div className="movie-info">
                 <div>
-                    <h4 className="movie-title">
-                        {title}
-                    </h4>
-                    <p className="movie-description">
-                        {description}
-                    </p>
+                    <Link to={`/movies/${id}`} className="movie__link"><h4 className="movie-title">{title}</h4></Link>
+                    <Link to={`/movies/${id}`} className="movie__link"><p className="movie-description">{description}</p></Link>
                 </div>
                 <Button size="small"
                     onClick={() => {

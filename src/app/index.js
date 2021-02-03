@@ -9,6 +9,7 @@ import Login from "./pages/Login/index";
 import Content from "./pages/Content";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
+import MoviePage from "./pages/MoviePage";
 
 
 class App extends React.Component {
@@ -32,6 +33,8 @@ class App extends React.Component {
 
   render() {
     const { favorites } = this.state;
+    const { itemId } = this.props;
+
     return (
       <Router>
         <Layout>
@@ -47,6 +50,12 @@ class App extends React.Component {
             </Route>
             <PrivateRoute exact path="/movies">
               <Content
+                favorites={favorites}
+                toggleFavorite={this.toggleFavorite}
+              />
+            </PrivateRoute>
+            <PrivateRoute exact path="/movies/:itemId">
+              <MoviePage
                 favorites={favorites}
                 toggleFavorite={this.toggleFavorite}
               />

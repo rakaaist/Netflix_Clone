@@ -26,6 +26,7 @@ class Content extends React.Component {
       })
       .then((data) => {
         this.setState({ movies: data });
+        console.log({movies: data})
       })
       .catch((e) => {
         history.replace("/login");
