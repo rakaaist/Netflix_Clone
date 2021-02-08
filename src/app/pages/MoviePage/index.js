@@ -1,75 +1,71 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-
+import { useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import useFetch from "../../../hooks/useFetch";
 import Button from "../../components/Button";
+import Modal from "../../components/Modal";
 import "./index.scss";
 
-class MoviePage extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            movie: [],
-        };
-    }
+function MoviePage({ favorites, toggleFavorite }) {
+    const { itemId } = useParams();
 
-    componentDidMount() {
-        const { itemId } = this.props.match.params;
+    const fetchOptions = useRef({
+        headers: { authorization: localStorage.getItem("token") },
+    });
+    const { loading, payload: movie = [] } = useFetch(
+        `https://academy-video-api.herokuapp.com/content/items/${itemId}`,
+        fetchOptions.current
+    );
 
-        fetch(`https://academy-video-api.herokuapp.com/content/items/${itemId}`, {
-            headers: { authorization: localStorage.getItem("token") },
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error(response.status);
-            })
-            .then((data) => {
-                this.setState({ movie: data });
-                console.log({ movie: data })
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    }
+    const [modal, toggleModal] = useState(false);
 
-    render() {
-        const { movie } = this.state;
-        const { favorites, toggleFavorite } = this.props;
+    console.log(movie);
 
-        console.log(movie);
+    return (
+        <>
+            <article className="content">
+                <section className="content__wrapper">
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : (
+                            <div className="content__movies">
+                                <img
+                                    className="movie__image"
+                                    src={movie.image}
+                                    alt={`${movie.title}_image`}
+                                />
 
-        return (
-            <>
-                <article className="content">
-                    <section className="content__wrapper">
-                        <div className="content__movies">
-                            <img
-                                className="movie__image"
-                                src={movie.image}
-                                alt={`${movie.title}_image`}
-                            />
+                                <div className="movie">
+                                    <h1 className="movie__title">{movie.title}</h1>
+                                    <p className="movie__description">{movie.description}</p>
+                                    <Button
+                                        onClick={() => {
+                                            toggleFavorite(movie.id);
+                                        }}
+                                        isTransparent={favorites.includes(movie.id) ? true : false}
+                                    >
+                                        {favorites.includes(movie.id) ? "Remove" : "Favorite"}
+                                    </Button>
+                                    <Button
+                                        onClick={() => {
+                                            toggleModal(true);
+                                        }}
+                                    >
+                                        Trailer</Button>
+                                </div>
 
-                            <div className="movie">
-                                <h1 className="movie__title">{movie.title}</h1>
-                                <p className="movie__description">{movie.description}</p>
-                                <Button
-                                    onClick={() => {
-                                        toggleFavorite(movie.id);
-                                    }}
-                                    isTransparent={favorites.includes(movie.id) ? true : false}
-                                >
-                                    {favorites.includes(movie.id) ? "Remove" : "Favorite"}
-                                </Button>
-                                <Button>Trailer</Button>
                             </div>
-
-                        </div>
-                    </section>
-                </article>
-            </>
-        );
-    }
+                        )}
+                    {modal && (
+                        <Modal
+                            toggleModal={toggleModal}
+                            id={movie.id}
+                            video={movie.video}
+                        />
+                    )}
+                </section>
+            </article>
+        </>
+    );
 }
 
-export default withRouter(MoviePage);
+export default MoviePage;

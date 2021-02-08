@@ -1,0 +1,24 @@
+#root {
+    position: relative;
+  }
+  .modal {
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: rgba(34, 34, 34, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  iframe {
+    width: 120vh;
+    height: calc(120vh / 16 * 9);
+  
+    @media (min-aspect-ratio: 3/4) {
+      width: 80vw;
+      height: calc(80vw / 16 * 9);
+    }
+  }

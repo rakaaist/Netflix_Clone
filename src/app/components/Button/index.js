@@ -7,7 +7,12 @@ function Button({ className, type = "button", children, size, onClick, isTranspa
     const Component = to ? Link : "button";
 
     return (
-        <Component type={type} onClick={onClick} className={`size-${assignedSize} button button-${transparency} ${className}`} to={to}>
+        <Component
+            type={type}
+            onClick={onClick}
+            className={`size-${assignedSize} button button-${transparency} ${className}`}
+            to={to}
+        >
             {children}
         </Component>
     );
