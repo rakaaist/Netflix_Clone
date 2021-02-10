@@ -1,20 +1,32 @@
-import Button from "../components/Button";
-import Movie from "../components/Movie";
-import Hero from "../components/Hero";
+import { connect } from "react-redux";
+
 import useFetch from "../../hooks/useFetch";
+import Hero from "../components/Hero";
+import Movie from "../components/Movie";
+import Button from "../components/Button";
 
-function Home({ favorites, toggleFavorite }) {
-
-  const { loading, payload: movies = [] } = useFetch(
-    "https://academy-video-api.herokuapp.com/content/free-items"
-  );
+function Home({ 
+  loading,
+  movies,
+  onSuccess, 
+  onFailure, 
+  onStart, 
+  favorites, 
+  toggleFavorite 
+}) {
+  useFetch({
+    url: "https://academy-video-api.herokuapp.com/content/free-items",
+    onSuccess,
+    onFailure,
+    onStart
+  });
 
   return (
     <>
       <Hero />
       <section className="content">
         <div className="content__movies">
-        {loading && <p>Loading...</p>}
+          {loading && <p>Loading...</p>}
 
           {movies.map((movie) => {
             return (
@@ -37,5 +49,30 @@ function Home({ favorites, toggleFavorite }) {
   );
 }
 
+function mapStateToProps({ content }) {
+  return {
+    loading: content.movies.isLoading,
+    favorites: content.favorites,
+    movies: content.movies.data,
 
-export default Home;
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStart: () => {
+      dispatch({ type: "GET_MOVIES" })
+    },
+    onSuccess: (json) => {
+      dispatch({ type: "GET_MOVIES_SUCCESS", payload: json })
+    },
+    onFailure: (error) => {
+      dispatch({ type: "GET_MOVIES_FAILURE", payload: error })
+    },
+    toggleFavorite: (id) => {
+      dispatch({ type: "TOGGLE_FAVORITE", payload: id})
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

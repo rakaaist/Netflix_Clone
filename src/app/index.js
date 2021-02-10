@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 
 import "./index.scss";
 
@@ -24,33 +26,32 @@ function App() {
   };
 
   return (
-    <Router>
-      <Layout>
-        <Switch>
-          <PublicRoute exact path="/">
-            <Home
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-            />
-          </PublicRoute>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <PrivateRoute exact path="/movies">
-            <Content
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-            />
-          </PrivateRoute>
-          <PrivateRoute exact path="/movies/:itemId">
-            <MoviePage
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-            />
-          </PrivateRoute>
-        </Switch>
-      </Layout>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Layout>
+          <Switch>
+            <PublicRoute exact path="/">
+              <Home
+                favorites={favorites}
+                toggleFavorite={toggleFavorite}
+              />
+            </PublicRoute>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <PrivateRoute exact path="/movies">
+              <Content/>
+            </PrivateRoute>
+            <PrivateRoute exact path="/movies/:itemId">
+              <MoviePage
+                favorites={favorites}
+                toggleFavorite={toggleFavorite}
+              />
+            </PrivateRoute>
+          </Switch>
+        </Layout>
+      </Router>
+    </Provider>
   );
 }
 
