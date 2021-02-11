@@ -14,6 +14,7 @@ function Content({
     onStart,
     favorites,
     toggleFavorite,
+    error,
 }) {
     console.log(token);
     const fetchOptions = useRef({
@@ -33,6 +34,7 @@ function Content({
             <article className="content">
                 <section className="content__wrapper">
                     <div className="content__movies">
+                        {error && <p>{error}</p>}
                         {loading && <p>Loading...</p>}
 
                         {movies.map((movie) => {
@@ -77,8 +79,8 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: "GET_MOVIES_FAILURE" });
         },
         toggleFavorite: (id) => {
-            dispatch({type: "TOGGLE_FAVORITE", payload: id})
-          }
+            dispatch({ type: "TOGGLE_FAVORITE", payload: id })
+        }
     };
 }
 

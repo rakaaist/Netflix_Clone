@@ -5,14 +5,15 @@ import Hero from "../components/Hero";
 import Movie from "../components/Movie";
 import Button from "../components/Button";
 
-function Home({ 
+function Home({
   loading,
   movies,
-  onSuccess, 
-  onFailure, 
-  onStart, 
-  favorites, 
-  toggleFavorite 
+  onSuccess,
+  onFailure,
+  onStart,
+  favorites,
+  toggleFavorite,
+  error,
 }) {
   useFetch({
     url: "https://academy-video-api.herokuapp.com/content/free-items",
@@ -26,6 +27,7 @@ function Home({
       <Hero />
       <section className="content">
         <div className="content__movies">
+          {error && <p>{error}</p>}
           {loading && <p>Loading...</p>}
 
           {movies.map((movie) => {
@@ -70,7 +72,7 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: "GET_MOVIES_FAILURE", payload: error })
     },
     toggleFavorite: (id) => {
-      dispatch({ type: "TOGGLE_FAVORITE", payload: id})
+      dispatch({ type: "TOGGLE_FAVORITE", payload: id })
     }
   };
 }
