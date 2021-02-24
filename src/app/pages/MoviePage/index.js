@@ -15,7 +15,7 @@ function MoviePage({
     onStart,
     favorites,
     toggleFavorite,
-    error,
+    error
 }) {
     const { itemId } = useParams();
     const movie = movies.filter(({ id }) => {
@@ -25,6 +25,7 @@ function MoviePage({
     const fetchOptions = useRef({
         headers: { authorization: token },
     });
+    console.log(`this is movie ${movie}`);
 
     useFetch({
         url: `https://academy-video-api.herokuapp.com/content/items/${itemId}`,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "./index.scss";
@@ -11,8 +11,10 @@ import Button from "../../components/Button";
 function Login({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
   const [error, setError] = useState("");
+
+  const history = useHistory();
+  const { state } = useLocation();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +32,7 @@ function Login({ onLogin }) {
       })
       .then((data) => {
         onLogin(data.token);
-        history.replace("/movies");
+        history.replace(state?.initialRoute || "/movies");
       })
       .catch((e) => {
         console.log(e);

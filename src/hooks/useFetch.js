@@ -61,7 +61,7 @@ function useFetch({
         if(condition) {
         getData();
         }
-    }, [getData], condition);
+    }, [getData, condition]);
 
     return { payload, error, loading };
 }

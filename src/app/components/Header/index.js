@@ -10,7 +10,9 @@ function Header({ onLogout }) {
 
     <header className="header">
       <nav className="nav">
-        <Link to='/'><img className="nav__img" src={logo} alt="logo-felix" /></Link>
+        <Link to='/'>
+          <img className="nav__img" src={logo} alt="logo-felix" />
+          </Link>
         <Switch>
           <Route exact path="/login">
             {null}
