@@ -1,6 +1,9 @@
 import { useRef } from "react";
-import { connect } from "react-redux";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+import content from "../../content";
 import useFetch from "../../hooks/useFetch";
 
 import Movie from "../components/Movie";
@@ -58,30 +61,23 @@ function Content({
     );
 }
 
-function mapStateToProps({ content, auth }) {
-    return {
-        loading: content.movies.isLoading,
-        movies: content.movies.data,
-        favorites: content.favorites,
-        token: auth.token
-    };
-}
+const enhance = connect(
+    (state) => ({
+      movies: content.selectors.getMovies(state),
+      favorites: content.selectors.getFavorites(state),
+      loading: content.selectors.isLoading(state),
+      token: state.auth.token,
+    }),
+    (dispatch) =>
+      bindActionCreators(
+        {
+          onStart: content.actions.getMovies,
+          onSuccess: content.actions.getMoviesSuccess,
+          onFailure: content.actions.getMoviesFailure,
+          toggleFavorite: content.actions.toggleFavorite,
+        },
+        dispatch
+      )
+  );
 
-function mapDispatchToProps(dispatch) {
-    return {
-        onStart: () => {
-            dispatch({ type: "GET_MOVIES" });
-        },
-        onSuccess: (json) => {
-            dispatch({ type: "GET_MOVIES_SUCCESS", payload: json });
-        },
-        onFailure: (error) => {
-            dispatch({ type: "GET_MOVIES_FAILURE" });
-        },
-        toggleFavorite: (id) => {
-            dispatch({ type: "TOGGLE_FAVORITE", payload: id })
-        }
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Content);
+  export default enhance(Content);

@@ -1,3 +1,5 @@
+import * as types from "./actionTypes";
+
 const INITIAL_STATE = {
     movies: {
         data: [],
@@ -11,22 +13,22 @@ function reducer(state = INITIAL_STATE, action) {
     console.log(state, action);
 
     switch (action.type) {
-        case "GET_MOVIES":
+        case types.GET_MOVIES:
             return {
                 ...state,
                 movies: { ...INITIAL_STATE.movies, isLoading: true }
             };
-        case "GET_MOVIES_SUCCESS":
+        case types.GET_MOVIES_SUCCESS:
             return {
                 ...state,
                 movies: { ...INITIAL_STATE.movies, data: action.payload }
             };
-        case "GET_MOVIES_FAILURE":
+        case types.GET_MOVIES_FAILURE:
             return {
                 ...state,
                 movies: { ...INITIAL_STATE.movies, error: action.payload }
             };
-        case "TOGGLE_FAVORITE":
+        case types.TOGGLE_FAVORITE:
             const toggleFavorite = (id) => {
                 if (state.favorites.includes(id)) {
                     return state.favorites.filter((favorite) => favorite !== id);
@@ -37,12 +39,12 @@ function reducer(state = INITIAL_STATE, action) {
             return {
                 ...state, favorites: toggleFavorite(action.payload)
             };
-        case "GET_SINGLE_MOVIE":
+        case types.GET_SINGLE_MOVIE:
             return {
                 ...state,
                 movies: { ...state.movies, isLoading: true }
             };
-        case "GET_SINGLE_MOVIE_SUCCESS":
+        case types.GET_SINGLE_MOVIE_SUCCESS:
             const hasMovie = !!state.movies.data.find(({ id }) => {
                 return id = action.payload.id;
             });
@@ -50,7 +52,7 @@ function reducer(state = INITIAL_STATE, action) {
                 ...state,
                 movies: { ...state.movies, data: hasMovie ? state.movies.data : state.movies.data.concat(action.payload), isLoading: false }
             };
-        case "GET_SINGLE_MOVIE_FAILURE":
+        case types.GET_SINGLE_MOVIE_FAILURE:
             return {
                 ...state,
                 movies: { ...state.movies, error: action.payload, isLoading: false }
